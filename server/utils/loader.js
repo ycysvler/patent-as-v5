@@ -35,11 +35,9 @@ const loader = function (loadPath) {                    // 加载一个目录
     return router;
 };
 
-
 let root = new Router();
 
 let r_api = loader(path.join(__dirname, '../routers/api'));       // 加载 routers/api 下文件
 root.use('/patent/api', r_api.routes(), r_api.allowedMethods());
-
 
 module.exports = root;

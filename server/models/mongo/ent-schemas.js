@@ -129,6 +129,18 @@ module.exports = class Schemas{
         this.jobResultSchema.index({ jobid: 1, imagetype: 1 });
         this.jobResultSchema.index({ jobid: 1, source:1, imagetype: 1,featuretype:1 });
         this.JobResult = conn.model('JobResult', this.jobResultSchema);
+
+
+        // 用户表
+        this.userSchema = new mongoose.Schema({
+            userid: {type: String,index: {unique: true, dropDups: true}},       // 用户ID
+            username: {type: String,index: {unique: true, dropDups: true}},     // 登录名
+            password:{type: String},                                            // 密码
+            cname:String,                                                       // 中文名
+            icon:String,                                                        // 头像地址
+            createtime:Date                                                     // 创建时间
+        });
+        this.User = conn.model('User', this.userSchema);
     }
 };
 

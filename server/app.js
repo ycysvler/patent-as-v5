@@ -43,6 +43,6 @@ app.use(loader.routes()).use(loader.allowedMethods());  // 加载路由
 
 app.listen(config.server.port);                         // 启动http服务
 
-log.info({port: config.server.port}, 'patent v5.0 app services is starting at port ' + config.server.port);
+log.info({path:'~',type:'start',port: config.server.port}, 'patent v5.0 app services is starting at port ' + config.server.port);
 
 module.exports = app;

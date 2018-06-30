@@ -5,6 +5,7 @@ let haSchemas = require('./ha-schemas');
 const pool = new Map();
 
 const getMongoPool = (entid)=>{
+    entid = entid === "patent" ? "ent_20170808220894" : entid;
     entid = entid === undefined ? "cabase":entid;
 
     if(!pool.has(entid)){
