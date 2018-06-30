@@ -12,16 +12,18 @@ const path = require('path');                           // 基础库
  * @param  {string}     name    日志名称，同时用于日志文件名
  * @return {object}             日志对象
  */
-module.exports = function(name){
+module.exports = function(name, level){
+    level = level ? level : 'info';
+
     const log = bunyan.createLogger(
         {
             name: name,
             streams: [
                 // 输出到控制台
-                {level: 'info', stream: process.stdout},
+                {level: level, stream: process.stdout},
                 // 循环输出到文件
                 {
-                    level: 'info',
+                    level: level,
                     path: path.join(__dirname, '../logs/'+name+'.log'),
                     type: 'rotating-file',
                     period: '1d',
