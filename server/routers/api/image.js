@@ -1,29 +1,33 @@
 /**
- * Created by VLER on 2018/6/29.
+ * 图像操作
+ *
+ * Created by VLER on 2018/6/30.
  */
-let moment = require('moment');
-let uuid = require('uuid');
+const ImageLogic = require('../../logic/image');
+const tools = require('../../utils/tools');
 
-let getMongoPool = require('../../models/mongo/pool.js');
+const logic = new ImageLogic();
 
 module.exports = function(router) {
     router.get('/images/count', async(ctx)=>{
-        let count = await getCount();
-        ctx.body = count;
+        // let count = await getCount();
+        // ctx.body = count;
+        ctx.body = 3232;
     });
-};
 
+    /**
+     * 图像内容
+     * @query  {string} name     图片名
+     * @return {object}          图片数据
+     */
+    router.get('/images/data/:name', async(ctx) => {
+        let ok = tools.required(ctx, ['name']);
+        if (ok) {
+            let name = ctx.params.name;
+            let item = await logic.getSource(name);
 
-function getCount() {
-    return new Promise((resolve, reject) => {
-        try {
-
-            let Image = getMongoPool('ent_20170808220894').Image;
-            Image.count({},function (err, items) {
-                resolve( items );
-            });
-        } catch ( err ) {
-            reject( err )
+            console.log('item>',item);
+            ctx.body = item;
         }
     });
-}
+};

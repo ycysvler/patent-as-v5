@@ -26,8 +26,8 @@ const log = logger('app');                              // 日志
 // });
 
 app.on('error', (err, ctx) => {                         // 全局错误处理
-    console.log(err);
-    log.error({title: err.toString(), stack: err.stack}, 'server error');
+    //console.log(err);
+    //log.error({title: err.toString(), stack: err.stack}, 'server error');
 });
 
 app.use(cors({credentials: true}));                      // 处理跨域(设置credentials：true,是要支持客户端跨域使用cookie)

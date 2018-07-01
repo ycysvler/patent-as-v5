@@ -28,9 +28,9 @@ module.exports = class LocarnoLogic {
     list(){
         return new Promise((resolve, reject) => {
             try {
-                let Item = getMongoPool('patent').LocarnoType;
+                let doc = getMongoPool('patent').LocarnoType;
 
-                Item.find({}, function (err, item) {
+                doc.find({}, function (err, item) {
                     if (!err) {
                         resolve(item);
                     } else {

@@ -20,12 +20,12 @@ module.exports = class JobLogic {
                 let Item = getMongoPool('patent').Job;
 
                 Item.find(
-                    { "jobtype": jobtype},
+                    {"jobtype": jobtype},
                     function (err, item) {
-                        if (!err) {
-                            resolve(item);
-                        } else {
+                        if (err) {
                             reject(err);
+                        } else {
+                            resolve(item);
                         }
                     });
             } catch (err) {
