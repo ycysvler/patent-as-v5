@@ -3,10 +3,10 @@
  *
  * Created by VLER on 2018/6/30.
  */
-const User = require('../../logic/user');
+const UserLogic = require('../../logic/user');
 const tools = require('../../utils/tools');
 
-const userLogic = new User();
+const logic = new UserLogic();
 
 module.exports = function (router) {
     /**
@@ -19,9 +19,8 @@ module.exports = function (router) {
         let ok = tools.required(ctx, ['username', 'password']);
 
         if (ok) {
-            let item = await userLogic.login(ctx.request.body.username, ctx.request.body.password);
-            console.log(item);
-            ctx.body = item;
+            let item = await logic.login(ctx.request.body.username, ctx.request.body.password);
+            ctx.body ={code:200, data:item} ;
         }
     });
     /**
@@ -30,7 +29,26 @@ module.exports = function (router) {
      * @return {object}          用户信息
      */
     router.post('/system/users', async(ctx) => {
-        let item = await userLogic.add(ctx.request.body);
+        let item = await logic.add(ctx.request.body);
         ctx.body = item;
+    });
+
+    /**
+     * 用户菜单
+     * @query  {object} userid   用户ID
+     * @return {object}          菜单信息
+     */
+    router.get('/system/menu', async(ctx) => {
+        let ok = tools.required(ctx, ['userid']);
+        if (ok) {
+            let userid = ctx.request.query.userid;
+            let item = await logic.single(ctx.request.query.userid);
+            console.log(item);
+            if (item === null) {
+                ctx.body = {code: 404, message: 'user [' + userid + '] is missing!'};
+            } else {
+                ctx.body = {code: 200, data: item.menus};
+            }
+        }
     });
 };

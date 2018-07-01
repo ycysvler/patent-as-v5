@@ -18,7 +18,7 @@ class tools {
         let ok = true, message = '';
 
         fields.forEach((item) => {                              // 循环判断field是否存在
-            if (!ctx.request.body[item]) {
+            if (!ctx.request.body[item] && !ctx.request.query[item]) {
                 message += '[' + item + '] parameter is missing! ';
                 ok = false;
             }

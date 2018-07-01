@@ -138,9 +138,22 @@ module.exports = class Schemas{
             password:{type: String},                                            // 密码
             cname:String,                                                       // 中文名
             icon:String,                                                        // 头像地址
+            menus:Object,                                                       // 菜单
             createtime:Date                                                     // 创建时间
         });
         this.User = conn.model('User', this.userSchema);
+
+        // 外观专利类别
+        this.locarnoTypeSchema = new mongoose.Schema({
+            typeid: {type: String,index: {unique: true, dropDups: true}},       // 类型ID
+            parentid: {type: String},                                           // 父ID
+            typecode:{type: String},                                            // 类型编码
+            typename:String,                                                    // 类型名称
+            order:Number,                                                       // 排序
+            icon:String,                                                        // 图标
+            description:String,                                                 // 描述
+        });
+        this.LocarnoType = conn.model('LocarnoType', this.locarnoTypeSchema);
     }
 };
 

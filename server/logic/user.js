@@ -32,6 +32,30 @@ module.exports = class UserLogic {
             }
         });
     }
+
+    /**
+     * 获取单个用户信息
+     * @param  {string} userid   用户ID
+     * @return {object}          用户信息
+     */
+    single(userid) {
+        return new Promise((resolve, reject) => {
+            try {
+                let User = getMongoPool('patent').User;
+
+                User.findOne({"userid":userid}, function (err, item) {
+                    if (!err) {
+                        resolve(item);
+                    } else {
+                        reject(err);
+                    }
+                });
+            } catch (err) {
+                reject(err)
+            }
+        });
+    }
+
     /**
      * 添加用户
      * @param  {object} data     用户数据

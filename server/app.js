@@ -27,14 +27,10 @@ const log = logger('app');                              // 日志
 
 app.on('error', (err, ctx) => {                         // 全局错误处理
     console.log(err);
-    log.error(
-        {
-            title: err.toString(), stack: err.stack
-        },
-        'server error');
+    log.error({title: err.toString(), stack: err.stack}, 'server error');
 });
 
-app.use(cors());                                        // 处理跨域
+app.use(cors({credentials: true}));                      // 处理跨域(设置credentials：true,是要支持客户端跨域使用cookie)
 app.use(koastatic(path.join(__dirname, '../public')));  // 处理静态资源
 app.use(bodyparser());                                  // 使用ctx.body解析中间件
 app.use(consuming);                                     // 计算耗时中间件
@@ -43,6 +39,10 @@ app.use(loader.routes()).use(loader.allowedMethods());  // 加载路由
 
 app.listen(config.server.port);                         // 启动http服务
 
-log.info({path:'~',type:'start',port: config.server.port}, 'patent v5.0 app services is starting at port ' + config.server.port);
+log.info({                                              // 记录系统启动日志
+    path: '~',
+    type: 'start',
+    port: config.server.port
+}, 'patent v5.0 app services is starting at port ' + config.server.port);
 
 module.exports = app;
