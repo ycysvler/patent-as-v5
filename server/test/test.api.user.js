@@ -32,7 +32,7 @@ describe('# 系统接口', function () {
                 .end((err, res) => {
                     // 断言判断结果是否为object类型
                     expect(res.body).to.be.an('object');
-                    expect(res.body).any.keys('userid', 'username', 'cname');
+                    expect(res.body.data).any.keys('userid', 'username', 'cname');
                     done();
                 });
         });
@@ -57,6 +57,34 @@ describe('# 系统接口', function () {
                     // 断言判断结果是否为object类型
                     //expect(res.body).to.be.a('float32');
                     expect(res.body).have.all.keys('code','message');
+                    done();
+                });
+        });
+    });
+
+    describe('# 用户接口 - 系统菜单', function () {
+
+        it('> 正确验证 - 返回用户菜单', (done)=> {
+            request
+                .get('/patent/api/system/menu?userid=4dd3562851d641b09f78e074d672a221')
+                .expect(200)
+                .end((err, res) => {
+                    // 断言判断结果是否为object类型
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.code).is.equal(200);
+                    expect(res.body.data).length.above(4);
+                    done();
+                });
+        });
+        it('> 异常验证 - 缺少userid参数', (done)=> {
+            request
+                .get('/patent/api/system/menu')
+                .expect(200)
+                .end((err, res) => {
+                    // 断言判断结果是否为object类型
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.code).is.equal(400);
+                    expect(res.body.message).equal('[userid] parameter is missing! ');
                     done();
                 });
         });
