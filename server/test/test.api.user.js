@@ -55,7 +55,6 @@ describe('# 系统接口', function () {
                 .expect(400)
                 .end((err, res) => {
                     // 断言判断结果是否为object类型
-                    //expect(res.body).to.be.a('float32');
                     expect(res.body).have.all.keys('code','message');
                     done();
                 });

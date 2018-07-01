@@ -9,12 +9,6 @@ const tools = require('../../utils/tools');
 const logic = new ImageLogic();
 
 module.exports = function(router) {
-    router.get('/images/count', async(ctx)=>{
-        // let count = await getCount();
-        // ctx.body = count;
-        ctx.body = 3232;
-    });
-
     /**
      * 图像内容
      * @query  {string} name     图片名

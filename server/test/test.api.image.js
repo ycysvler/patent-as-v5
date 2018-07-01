@@ -17,19 +17,15 @@ const expect = chai.expect;
 
 const request = supertest('http://localhost:' + config.server.port);
 
-describe('# 系统接口', function () {
-    describe('# 外观接口 - 外观类型列表', function () {
+describe('# 业务接口', function () {
+    describe('# 图像 - 获取图像数据', function () {
 
         it('> 正确验证 - 获取到外观类型列表', (done)=> {
             request
-                .get('/patent/api/locarno/nodes')
-                .set('Accept', 'application/json')
+                .get('/patent/api/images/data/a5c54ee0-260a-11e8-bfca-532943794545.jpg')
                 .expect(200)
                 .end((err, res) => {
                     // 断言判断结果是否为object类型
-                    expect(res.body).to.be.an('object');
-                    expect(res.body.code).is.equal(200);
-                    expect(res.body.data).length.above(10);
                     done();
                 });
         });
