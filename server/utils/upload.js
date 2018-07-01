@@ -66,6 +66,7 @@ function uploadFile(ctx, options) {
             file.on('end', function () {
                 result.success = true;
                 result.message = '文件上传成功';
+                result.path = _uploadFilePath;
 
                 console.log('文件上传成功！');
                 resolve(result);

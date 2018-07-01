@@ -32,6 +32,14 @@ class tools {
         }
         return ok;
     }
+
+    /**
+     * sleep
+     * @param  {number} time  sleep时间
+     */
+    sleep(time){
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
 }
 
 module.exports = new tools();

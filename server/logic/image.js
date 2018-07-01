@@ -17,11 +17,47 @@ module.exports = class ImageLogic {
     getSource(name) {
         return new Promise((resolve, reject) => {
             let doc = getMongoPool('patent').Image;
-            doc.findOne({name: name},'source',  function (err, Item) {
+            doc.findOne({name: name}, 'source', function (err, Item) {
                 if (err) {
                     reject(err);
                 } else {
                     resolve(Item.source);
+                }
+            });
+        });
+    }
+
+    /**
+     * 添加图片
+     * @return {array}          外观类型列表
+     */
+    add(data) {
+        return new Promise((resolve, reject) => {
+            let Image = getMongoPool('patent').Image;
+            let image = new Image(data);
+            image.save(function (err, item) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(item.name);
+                }
+            });
+        });
+    }
+
+    /**
+     * 获取图片状态
+     * @query  {string} name    图片名称
+     * @return {number}         图片状态
+     */
+    getState(name) {
+        return new Promise((resolve, reject) => {
+            let doc = getMongoPool('patent').Image;
+            doc.findOne({name: name}, 'state', function (err, Item) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(Item.state);
                 }
             });
         });

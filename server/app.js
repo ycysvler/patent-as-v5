@@ -26,7 +26,7 @@ const log = logger('app');                              // 日志
 // });
 
 app.on('error', (err, ctx) => {                         // 全局错误处理
-    //console.log(err);
+    console.log(err);
     //log.error({title: err.toString(), stack: err.stack}, 'server error');
 });
 

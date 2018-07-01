@@ -3,8 +3,10 @@
  *
  * Created by VLER on 2018/6/30.
  */
+const path = require('path');
 const JobLogic = require('../../logic/job');
 const tools = require('../../utils/tools');
+const uploadFile = require( '../../utils/upload');
 
 const logic = new JobLogic();
 
