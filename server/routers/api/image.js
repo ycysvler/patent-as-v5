@@ -3,8 +3,6 @@
  */
 let moment = require('moment');
 let uuid = require('uuid');
-var path = require('path');
-let fs = require('fs');
 
 let getMongoPool = require('../../models/mongo/pool.js');
 
