@@ -9,11 +9,13 @@ const uuid = require('uuid');
 const moment = require('moment');
 const ImageLogic = require('../../logic/image');
 const tools = require('../../utils/tools');
-const uploadFile = require( '../../utils/upload');
+const config = require('../../config/config');
+const mscenter = require('../../utils/mscenter');
+const uploadFile = require('../../utils/upload');
 
 const logic = new ImageLogic();
 
-module.exports = function(router) {
+module.exports = function (router) {
     /**
      * 图像内容
      * @query  {string} name     图片名
@@ -25,7 +27,7 @@ module.exports = function(router) {
             let name = ctx.params.name;
             let item = await logic.getSource(name);
 
-            console.log('item>',item);
+            console.log('item>', item);
             ctx.body = item;
         }
     });
@@ -35,39 +37,40 @@ module.exports = function(router) {
      * @query  {buffer} imagefile   图片文件
      * @return {object}             文件名
      */
-    router.post('/search/images', async(ctx)=>{
-        let serverFilePath = path.join( __dirname, '../../../public/patent/upload-files' );
+    router.post('/search/images', async(ctx) => {
+        let serverFilePath = path.join(__dirname, '../../../public/patent/upload-files');
 
         // 上传文件事件
-        let result = await uploadFile( ctx, {
+        let result = await uploadFile(ctx, {
             fileType: 'patent-images',          // 上传之后的目录
             path: serverFilePath
         });
 
-        let chunk = fs.readFileSync(result.path, 'utf8');
+        let chunk = fs.readFileSync(result.path);
         let extname = path.extname(result.path);
 
         let item = {
-            createtime:new moment(),
+            createtime: new moment(),
             name: uuid.v1() + extname,
-            source:chunk,
-            type:'search',
-            state:0
+            source: chunk,
+            type: 'search',
+            state: 0
         };
         let image = await logic.add(item);
+        mscenter.publish('Feature:BuildFeature', {name: item.name, type: 'search', entid: config.app.entid});
 
         let i = 0;
-        while(i<10){
-            let state =await logic.getState(item.name);
-            if(state === 2)
+        while (i < 10) {
+            let state = await logic.getState(item.name);
+            if (state === 2)
                 break;
             await tools.sleep(1000);
             i++;
             console.log(i);
         }
 
-        fs.unlink(result.path, () => { });
+        fs.unlink(result.path, () => {});
 
-        ctx.body = {code:200, data:image};
+        ctx.body = {code: 200, data: image};
     });
 };

@@ -13,6 +13,7 @@
   "dependencies": {
     "bunyan": "^1.8.12",
     "busboy": "^0.2.14",
+    "ioredis": "^3.2.2",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",

@@ -26,11 +26,16 @@ module.exports = {
     // redis 相关配置
     redis: {
         host: '127.0.0.1',
-        port: 6379
+        port: 6379,
+        password:'123456'
     },
 
     // server 相关配置
     server:{
         port: 3000                          // 服务启动端口号
+    },
+
+    app:{
+        entid:'ent_20170808220894'          // 目前先沿用entid这个设计，后期优化
     }
 };
