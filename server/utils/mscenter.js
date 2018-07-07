@@ -30,7 +30,11 @@ class MessageCenter {
     }
 
     onMessage(channel, message) {
-        console.log('onMessage >',channel, message);
+       if(channel === "HeartBeat:TimeChange"){
+
+       }else{
+           console.log('onMessage >',channel, message);
+       }
     }
 
     publish(type, message){

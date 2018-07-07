@@ -25,4 +25,14 @@ module.exports = function (router) {
             ctx.body = {code: 200, data: item};
         }
     });
+
+    // v2.1, 创建查询任务
+    router.post('/locarno/create', async(ctx)=>{
+        let ok = tools.required(ctx, ['userid','jobtype','name','imagetypes','images','resultcount']);
+        if (ok) {
+            let body = ctx.request.body;
+            let item = await logic.create(body);
+            ctx.body = item;
+        }
+    });
 };

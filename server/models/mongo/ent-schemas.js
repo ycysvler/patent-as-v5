@@ -144,7 +144,7 @@ module.exports = class Schemas {
 
         // v.5 查询任务
         this.jobSchema = new mongoose.Schema({
-            userid: {type: String, index: true},
+            userid: {type: String, index: true},                                // 用户ID
             name: {type: String},                                               // 任务名称
             imagetypes: [String],                                               // 查询的图片类型
             images: [String],                                                   // 查询的图片类型

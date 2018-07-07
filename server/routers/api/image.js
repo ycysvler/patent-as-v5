@@ -26,8 +26,6 @@ module.exports = function (router) {
         if (ok) {
             let name = ctx.params.name;
             let item = await logic.getSource(name);
-
-            console.log('item>', item);
             ctx.body = item;
         }
     });
@@ -66,7 +64,6 @@ module.exports = function (router) {
                 break;
             await tools.sleep(1000);
             i++;
-            console.log(i);
         }
 
         fs.unlink(result.path, () => {});
