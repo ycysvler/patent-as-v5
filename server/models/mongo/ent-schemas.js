@@ -105,16 +105,17 @@ module.exports = class Schemas {
         this.jobResultSchema = new mongoose.Schema({
             jobid: {type: String, index: true},  // 任务ID
             source: String,                      // 搜索图片
-            imagetype: String,                  // 查询的图片类型
-            featuretype: String,                // 查询的特征类型
-            image: String,                      // 搜索结果
-            score: Number,                      // 相似度
+            imagetype: String,                   // 查询的图片类型
+            image: String,                       // 搜索结果
+            shapescore: Number,                  // shape 相似度
+            deepscore: Number,                   // deep 相似度
+            lbpscore: Number,                    // lbp 相似度
+            colorscore: Number,                  // color 相似度
             extend: String,                      // 扩展内容
             createtime: Date                     // 创建时间
         });
 
         this.jobResultSchema.index({jobid: 1, imagetype: 1});
-        this.jobResultSchema.index({jobid: 1, source: 1, imagetype: 1, featuretype: 1});
         this.JobResult = conn.model('JobResult', this.jobResultSchema);
 
 
