@@ -18,7 +18,9 @@ class tools {
         let ok = true, message = '';
 
         fields.forEach((item) => {                              // 循环判断field是否存在
-            if (!ctx.request.body[item] && !ctx.request.query[item] && !ctx.params[item]) {
+            if ((ctx.request.body[item] === undefined) &&
+                (ctx.request.query[item] === undefined) &&
+                (ctx.params[item] === undefined)) {
                 message += '[' + item + '] parameter is missing! ';
                 ok = false;
             }
@@ -37,7 +39,7 @@ class tools {
      * sleep
      * @param  {number} time  sleep时间
      */
-    sleep(time){
+    sleep(time) {
         return new Promise((resolve) => setTimeout(resolve, time));
     }
 }

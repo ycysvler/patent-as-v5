@@ -33,7 +33,7 @@ class MessageCenter {
        if(channel === "HeartBeat:TimeChange"){
 
        }else{
-           console.log('onMessage >',channel, message);
+           //console.log('onMessage >',channel, message);
        }
     }
 

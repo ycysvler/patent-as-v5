@@ -26,7 +26,9 @@ module.exports = function (router) {
         }
     });
 
-    // v2.1, 创建查询任务
+    /**
+     * 创建查询任务
+     */
     router.post('/locarno/create', async(ctx)=>{
         let ok = tools.required(ctx, ['userid','jobtype','name','imagetypes','images','resultcount']);
         if (ok) {
@@ -35,4 +37,17 @@ module.exports = function (router) {
             ctx.body = item;
         }
     });
+
+    /**
+     * 删除查询任务
+     */
+    router.delete('/locarno/job', async(ctx)=>{
+        let ok = true;
+        if (ok) {
+            let body = ctx.request.body;
+            let item = await logic.remove(body);
+            ctx.body = {code: 200};
+        }
+    });
+
 };

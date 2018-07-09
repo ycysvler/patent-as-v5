@@ -15,9 +15,9 @@ module.exports = class ImageIndexLogic {
     list(imagetypes, featuretypes) {
         return new Promise((resolve, reject) => {
             try {
-                let Item = getMongoPool('patent').ImageIndexFile;
+                let ImageIndexFile = getMongoPool('patent').ImageIndexFile;
 
-                Item.find()
+                ImageIndexFile.find()
                     .where('type').in(imagetypes)
                     .where('feature_type').in(featuretypes)
                     .exec(function (err, items) {

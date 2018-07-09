@@ -43,7 +43,6 @@ module.exports = function (router) {
         if (ok) {
             let userid = ctx.request.query.userid;
             let item = await logic.single(ctx.request.query.userid);
-            console.log(item);
             if (item === null) {
                 ctx.body = {code: 404, message: 'user [' + userid + '] is missing!'};
             } else {

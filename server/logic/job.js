@@ -16,7 +16,7 @@ module.exports = class JobLogic {
 
     /**
      * 获取任务列表数据
-     * @return {array}          外观类型列表
+     * @return {array}
      */
     list(userid, jobtype, keyword) {
         return new Promise((resolve, reject) => {
@@ -24,7 +24,29 @@ module.exports = class JobLogic {
                 let Item = getMongoPool('patent').Job;
 
                 Item.find(
-                    {"jobtype": jobtype},
+                    {"jobtype": jobtype,"userid":userid},
+                    function (err, item) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(item);
+                        }
+                    });
+            } catch (err) {
+                reject(err)
+            }
+        });
+    }
+
+    /**
+     * 删除任务
+     * @return {array}
+     */
+    remove(ids){
+        return new Promise((resolve, reject) => {
+            try {
+                let Item = getMongoPool('patent').Job;
+                Item.remove({ _id: { $in: ids} },
                     function (err, item) {
                         if (err) {
                             reject(err);
@@ -66,7 +88,6 @@ module.exports = class JobLogic {
                                 break;
                         }
                         // 通知新查询任务产生
-                        console.log('publish msg');
                         mscenter.publish('Search:NewJob', {jobid: item._id, entid: config.app.entid});
 
                         resolve(item);
@@ -80,11 +101,18 @@ module.exports = class JobLogic {
         });
     }
 
+    /**
+     * 快速查询
+     * @param  {object} item     任务信息
+     */
     async fast(item) {
         let imageIndexFile = new ImageIndexLogic();
         let indexFiles = await imageIndexFile.list(item.imagetypes, item.featuretypes);
 
         let jobFastBlock = new JobFastBlockLogic();
+
+        console.log('item > ', item);
+        console.log('indexFiles > ', indexFiles);
 
         for (let img of item.images) {
             for (let indexFile of indexFiles) {
@@ -100,12 +128,16 @@ module.exports = class JobLogic {
                     state: 0,
                     createtime: new moment()
                 };
-
+                console.log(block);
                 await jobFastBlock.create(block);
             }
         }
     }
-
+    /**
+     * 高级查询与局部查询
+     * @param  {object} item        任务信息
+     * @param  {boolean} isSenior   true:高级查询， false:局部查询
+     */
     async senior(item, isSenior) {
         let JobBlock = isSenior ? new JobSeniorBlockLogic() : new JobZoneBlockLogic();
 
