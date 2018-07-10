@@ -56,7 +56,6 @@ module.exports = class Schemas {
         });
         this.ImageIndexFile = conn.model('ImageIndexFile', this.imageIndexFileSchema);
 
-
         this.jobFastBlockSchema = new mongoose.Schema({
             jobid: {type: String, index: true},
             image: String,                           // 查询的图片类型
@@ -85,7 +84,6 @@ module.exports = class Schemas {
             state: {type: Number, index: true},        // 0 等待，1 正在执行， 2 执行结束
             createtime: Date                         // 创建时间
         });
-
         this.JobSeniorBlock = conn.model('JobSeniorBlock', this.jobSeniorBlockSchema);
 
         this.jobZoneBlockSchema = new mongoose.Schema({
@@ -99,7 +97,6 @@ module.exports = class Schemas {
             state: {type: Number, index: true},        // 0 等待，1 正在执行， 2 执行结束
             createtime: Date                         // 创建时间
         });
-
         this.JobZoneBlock = conn.model('JobZoneBlock', this.jobZoneBlockSchema);
 
         this.jobResultSchema = new mongoose.Schema({
@@ -115,7 +112,6 @@ module.exports = class Schemas {
             extend: String,                      // 扩展内容
             createtime: Date                     // 创建时间
         });
-
         this.jobResultSchema.index({jobid: 1, imagetype: 1});
         this.JobResult = conn.model('JobResult', this.jobResultSchema);
 
@@ -159,6 +155,28 @@ module.exports = class Schemas {
             endtime: Date                                                       // 结束时间
         });
         this.Job = conn.model('Job', this.jobSchema);
+
+        // v.5 查询任务
+        this.patentSchema = new mongoose.Schema({
+            ap_num: {type: String, index: true},                                // 专利编号
+            image_ok: {type: String},
+            ap_name: {type: String},
+            ap_date: {type: String},
+            db_type: {type: String},
+            main_class: {type: String},
+            sub_class: {type: String},
+            simple_name: {type: String},
+            pub_date: {type: String},
+            pub_num: {type: String},
+            pa_name: {type: String},
+            designer: {type: String},
+            agent_name: {type: String},
+            prio_date: {type: String},
+            abstract: {type: String},
+            imageinfo: {type: String},
+            createtime: Date                                                   // 创建时间
+        });
+        this.Patent = conn.model('Patent', this.patentSchema);
     }
 };
 

@@ -41,7 +41,7 @@ module.exports = function (router) {
             for (let item of items) {
                 result.push({
                     image: item.image,
-                    code: 'image',
+                    code: item.code,
                     score: item.shapescore * w_shape + item.deepscore * w_deep + item.lbpscore * w_lbp + item.colorscore * w_color
                 });
             }
