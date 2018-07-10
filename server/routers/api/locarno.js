@@ -36,7 +36,7 @@ module.exports = function (router) {
         let ok = true;
 
         if (ok) {
-            let items = await logic.list(ctx.request.body);
+            let {total,items} = await logic.list(ctx.request.body);
             let result = [];
             for (let item of items) {
                 result.push({
@@ -46,8 +46,8 @@ module.exports = function (router) {
                 });
             }
 
-            let a = result.sort((obj1, obj2)=>{if( obj1.score*100 > obj2.score*100) return 1; else return 0;});
-            ctx.body = {code: 200, data: {total: a.length, datas: a}};
+            result.sort((obj1, obj2)=>{if( obj1.score > obj2.score) return 1; else return -1;});
+            ctx.body = {code: 200, data: {total: total, datas: result}};
         }
     });
 };

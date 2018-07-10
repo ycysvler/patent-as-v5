@@ -105,6 +105,7 @@ module.exports = class Schemas {
         this.jobResultSchema = new mongoose.Schema({
             jobid: {type: String, index: true},  // 任务ID
             source: String,                      // 搜索图片
+            code: String,                        // 合同编号
             imagetype: String,                   // 查询的图片类型
             image: String,                       // 搜索结果
             shapescore: Number,                  // shape 相似度

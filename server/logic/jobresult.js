@@ -13,14 +13,35 @@ module.exports = class JobResultLogic {
      * @return {array}
      */
     list(body) {
-        return new Promise((resolve, reject) => {
+        let self = this;
+        return new Promise(async(resolve, reject) => {
             try {
                 let Item = getMongoPool('patent').JobResult;
+                let count = await self.resultCount(body.jobid);
 
                 Item.find({"jobid": body.jobid, "imagetype": body.type})
                     .skip(body.pager.pagesize * (body.pager.current - 1))
                     .limit(body.pager.pagesize)
                     .exec(
+                        function (err, items) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve({total:count, items:items});
+                            }
+                        });
+            } catch (err) {
+                reject(err)
+            }
+        });
+    }
+
+    resultCount(jobid){
+        return new Promise((resolve, reject) => {
+            try {
+                let Item = getMongoPool('patent').JobResult;
+
+                Item.count({"jobid": jobid} ,
                         function (err, item) {
                             if (err) {
                                 reject(err);

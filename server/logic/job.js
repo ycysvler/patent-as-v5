@@ -45,6 +45,9 @@ module.exports = class JobLogic {
     remove(ids){
         return new Promise((resolve, reject) => {
             try {
+                let results = getMongoPool('patent').JobResult;
+                results.remove({ "jobid": { $in: ids} },(err,data)=>{});
+
                 let Item = getMongoPool('patent').Job;
                 Item.remove({ _id: { $in: ids} },
                     function (err, item) {
@@ -111,9 +114,6 @@ module.exports = class JobLogic {
 
         let jobFastBlock = new JobFastBlockLogic();
 
-        console.log('item > ', item);
-        console.log('indexFiles > ', indexFiles);
-
         for (let img of item.images) {
             for (let indexFile of indexFiles) {
                 let block = {
@@ -128,7 +128,6 @@ module.exports = class JobLogic {
                     state: 0,
                     createtime: new moment()
                 };
-                console.log(block);
                 await jobFastBlock.create(block);
             }
         }
