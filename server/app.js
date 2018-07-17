@@ -44,4 +44,5 @@ log.info({                                              // 记录系统启动日
     port: config.server.port
 }, 'patent v5.0 app services is starting at port ' + config.server.port);
 
+
 module.exports = app;

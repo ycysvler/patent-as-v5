@@ -21,7 +21,11 @@ module.exports = class ImageLogic {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(Item.source);
+                    if(Item.source)
+                        resolve(Item.source);
+                    else{
+                        resolve(null);
+                    }
                 }
             });
         });
@@ -58,6 +62,19 @@ module.exports = class ImageLogic {
                     reject(err);
                 } else {
                     resolve(Item.state);
+                }
+            });
+        });
+    }
+
+    getNamesByCode(code){
+        return new Promise((resolve, reject) => {
+            let doc = getMongoPool('patent').Image;
+            doc.find({code: code}, {_id:0, name:1}, function (err, Items) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(Items);
                 }
             });
         });

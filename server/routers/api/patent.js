@@ -5,9 +5,11 @@
  */
 const path = require('path');
 const PatentLogic = require('../../logic/patent');
+const ImageLogic = require('../../logic/image');
 const tools = require('../../utils/tools');
 
-const logic = new PatentLogic();
+const patentLogic = new PatentLogic();
+const imageLogic = new ImageLogic();
 
 module.exports = function (router) {
     /**
@@ -19,8 +21,14 @@ module.exports = function (router) {
         let ok = tools.required(ctx, ['ap_num']);
         if (ok) {
             let ap_num = ctx.params.ap_num;
-            let item = await logic.single(ap_num);
-            ctx.body = {code: 200, data: item};
+            let item = await patentLogic.single(ap_num);
+            let images = await imageLogic.getNamesByCode(ap_num);
+
+            let result = JSON.parse( JSON.stringify(item));
+
+            result['images'] = images;
+
+            ctx.body = {code: 200, data: result};
         }
     });
 

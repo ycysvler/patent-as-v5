@@ -50,4 +50,13 @@ module.exports = function (router) {
             ctx.body = {code: 200, data: {total: total, datas: result}};
         }
     });
+
+    router.post('/locarno/result/patents', async(ctx) => {
+        let logic = new JobResultLogic();
+        let {total,items} = await logic.patentGroup("5b44d53d6f66e84764a9f6af", 10 , 1);
+
+        let result = {code:200, data:{total:total, datas:items}};
+
+        ctx.body = result;
+    });
 };

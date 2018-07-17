@@ -11,7 +11,6 @@
 
 const supertest = require('supertest');
 const chai = require('chai');
-const assert = require('assert');
 const config = require('../config/config');
 
 const expect = chai.expect;
