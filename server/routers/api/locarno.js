@@ -33,30 +33,43 @@ module.exports = function (router) {
         let w_deep = weight.deep ? weight.deep : 0;
         let w_lbp = weight.lbp ? weight.lbp : 0;
 
+        let body = ctx.request.body;
+
         let ok = true;
 
         if (ok) {
-            let {total,items} = await logic.list(ctx.request.body);
+            let {total,items} = await logic.list(body);
             let result = [];
             for (let item of items) {
+                let shapescore = item.shapescore === 0 ? 1 : item.shapescore;
+                let deepscore = item.deepscore === 0 ? 1 : item.deepscore;
+                let lbpscore = item.lbpscore === 0 ? 1 : item.lbpscore;
+                let colorscore = item.colorscore === 0 ? 1 : item.colorscore;
                 result.push({
                     image: item.image,
                     code: item.code,
-                    score: item.shapescore * w_shape + item.deepscore * w_deep + item.lbpscore * w_lbp + item.colorscore * w_color
+                    score: shapescore * w_shape + deepscore * w_deep + lbpscore * w_lbp + colorscore * w_color
                 });
             }
 
             result.sort((obj1, obj2)=>{if( obj1.score > obj2.score) return 1; else return -1;});
+            result = result.filter(function(element,index, self){
+                return self.indexOf(element) == index;
+            });
+            result = result.slice(body.pager.pagesize * (body.pager.current - 1), body.pager.pagesize * body.pager.current);
+
             ctx.body = {code: 200, data: {total: total, datas: result}};
         }
     });
 
     router.post('/locarno/result/patents', async(ctx) => {
-        let logic = new JobResultLogic();
-        let {total,items} = await logic.patentGroup("5b44d53d6f66e84764a9f6af", 10 , 1);
+        let ok = true;
+        if (ok) {
+            let logic = new JobResultLogic();
+            let {total,items} = await logic.patentGroup(ctx.request.body);
+            let result = {code:200, data:{total:total, datas:items}};
+            ctx.body = result;
+        }
 
-        let result = {code:200, data:{total:total, datas:items}};
-
-        ctx.body = result;
     });
 };
