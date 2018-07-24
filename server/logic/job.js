@@ -24,7 +24,7 @@ module.exports = class JobLogic {
                 let Item = getMongoPool('patent').Job;
 
                 Item.find(
-                    {"jobtype": jobtype,"userid":userid},
+                    {"jobtype": jobtype, "userid": userid},
                     function (err, item) {
                         if (err) {
                             reject(err);
@@ -42,14 +42,15 @@ module.exports = class JobLogic {
      * 删除任务
      * @return {array}
      */
-    remove(ids){
+    remove(ids) {
         return new Promise((resolve, reject) => {
             try {
                 let results = getMongoPool('patent').JobResult;
-                results.remove({ "jobid": { $in: ids} },(err,data)=>{});
+                results.remove({"jobid": {$in: ids}}, (err, data) => {
+                });
 
                 let Item = getMongoPool('patent').Job;
-                Item.remove({ _id: { $in: ids} },
+                Item.remove({_id: {$in: ids}},
                     function (err, item) {
                         if (err) {
                             reject(err);
@@ -132,6 +133,7 @@ module.exports = class JobLogic {
             }
         }
     }
+
     /**
      * 高级查询与局部查询
      * @param  {object} item        任务信息
@@ -140,24 +142,20 @@ module.exports = class JobLogic {
     async senior(item, isSenior) {
         let JobBlock = isSenior ? new JobSeniorBlockLogic() : new JobZoneBlockLogic();
 
-        let instranceLogic = InstanceLogic();
-
+        let instranceLogic = new InstanceLogic();
         let instances = await instranceLogic.list();
 
-        for(let i = 0; i < instances.length; i++){
+        for (let i = 0; i < instances.length; i++) {
             let instance = instances[i];
 
             for (let type of item.imagetypes) {
                 for (let image of item.images) {
                     let block = {
-                        jobid: item._id,
-                        image: image,
-                        type: type,
+                        jobid: item._id, image: image,
+                        type: type, state: 0,
                         resultcount: item.resultcount,
-                        state: 0,
-                        instanceid:instance.instanceid,
-                        index:i,
-                        createtime: new moment()
+                        instanceid: instance.instanceid,
+                        index: i, createtime: new moment()
                     };
                     await JobBlock.create(block);
                 }
@@ -165,7 +163,6 @@ module.exports = class JobLogic {
         }
 
     }
-
 
 
 };
