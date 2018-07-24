@@ -14,15 +14,17 @@ module.exports = class ImageLogic {
      * 获取任务列表数据
      * @return {array}          外观类型列表
      */
-    getSource(name) {
+    getSource(name, type) {
+        type = type ? type : 'source';
+
         return new Promise((resolve, reject) => {
             let doc = getMongoPool('patent').Image;
-            doc.findOne({name: name}, 'source', function (err, Item) {
+            doc.findOne({name: name}, type, function (err, Item) {
                 if (err) {
                     reject(err);
                 } else {
-                    if(Item.source)
-                        resolve(Item.source);
+                    if(Item[type])
+                        resolve(Item[type]);
                     else{
                         resolve(null);
                     }
@@ -30,6 +32,7 @@ module.exports = class ImageLogic {
             });
         });
     }
+
 
     /**
      * 添加图片

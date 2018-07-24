@@ -25,7 +25,8 @@ module.exports = function (router) {
         let ok = tools.required(ctx, ['name']);
         if (ok) {
             let name = ctx.params.name;
-            let item = await logic.getSource(name);
+            let type = ctx.request.query.type;
+            let item = await logic.getSource(name, type);
             ctx.body = item;
         }
     });
