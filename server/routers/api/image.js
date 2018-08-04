@@ -71,4 +71,22 @@ module.exports = function (router) {
         let colour = await logic.getColour(image);
         ctx.body = {code: 200, data: {name:image, colour:colour}};
     });
+
+
+    // PaaS -> 查询 -> 图片数据
+    router.get('/images/crop/:name', async(ctx) => {
+        let name = ctx.params.name;
+
+        let ok = tools.required(ctx, ['width','height','x','y']);
+
+        if(ok){
+            let x = ctx.request.query['x'];
+            let y = ctx.request.query['y'];
+            let width = ctx.request.query['width'];
+            let height = ctx.request.query['height'];
+            let type = null;
+            let img = await logic.getCropImage(name, type, width, height, x, y);
+            ctx.body = img;
+        }
+    });
 };

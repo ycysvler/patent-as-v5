@@ -5,7 +5,7 @@ let moment = require('moment');
 let uuid = require('uuid');
 var path = require('path');
 let fs = require('fs');
-
+let gm = require('gm').subClass({imageMagick:true});
 let getMongoPool = require('../models/mongo/pool.js');
 
 module.exports = class ImageLogic {
@@ -95,4 +95,28 @@ module.exports = class ImageLogic {
             });
         });
     }
+
+    getCropImage(name, type, width, height, x, y) {
+        type = type ? type : 'source';
+ 
+        return new Promise((resolve, reject) => {
+	    let doc = getMongoPool('patent').Image;
+            doc.findOne({name: name}, type, function (err, Item) {
+                if (err) {
+            	    reject(err);
+                } else {
+                    //resolve(Item[type]);
+                    gm(Item[type])
+                        .crop(width, height, x, y)
+                        .toBuffer('JPEG', (err, buffer) => {
+                            if (err)
+                                console.log('err', err);
+                                
+                            resolve(buffer);
+                        });
+                }
+            });
+            
+        });
+     }
 };
