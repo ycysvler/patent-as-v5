@@ -25,7 +25,7 @@ module.exports = {
 
     // redis 相关配置
     redis: {
-        host: '127.0.0.1',
+        host: 'patent.redis',
         port: 6379,
         password:'123456'
     },

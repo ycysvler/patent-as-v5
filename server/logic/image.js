@@ -15,7 +15,7 @@ module.exports = class ImageLogic {
      * @return {array}          外观类型列表
      */
     getSource(name, type) {
-        type = type ? type : 'source';
+        type = type ? type : 'source'; 
 
         return new Promise((resolve, reject) => {
             let doc = getMongoPool('patent').Image;
@@ -65,6 +65,19 @@ module.exports = class ImageLogic {
                     reject(err);
                 } else {
                     resolve(Item.state);
+                }
+            });
+        });
+    }
+
+    getColour(name) {
+        return new Promise((resolve, reject) => {
+            let doc = getMongoPool('patent').Image;
+            doc.findOne({name: name}, 'colour', function (err, Item) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(Item.colour);
                 }
             });
         });

@@ -68,7 +68,7 @@ module.exports = function (router) {
         }
 
         fs.unlink(result.path, () => {});
-
-        ctx.body = {code: 200, data: image};
+        let colour = await logic.getColour(image);
+        ctx.body = {code: 200, data: {name:image, colour:colour}};
     });
 };
