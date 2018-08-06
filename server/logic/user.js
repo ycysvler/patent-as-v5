@@ -56,6 +56,24 @@ module.exports = class UserLogic {
         });
     }
 
+    list(){
+        return new Promise((resolve, reject) => {
+            try {
+                let User = getMongoPool('patent').User;
+
+                User.find({}, function (err, item) {
+                    if (!err) {
+                        resolve(item);
+                    } else {
+                        reject(err);
+                    }
+                });
+            } catch (err) {
+                reject(err)
+            }
+        }); 
+    }
+
     /**
      * 添加用户
      * @param  {object} data     用户数据

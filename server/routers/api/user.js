@@ -50,4 +50,16 @@ module.exports = function (router) {
             }
         }
     });
+
+    router.get('/system/users', async(ctx) => {
+        let ok = true;
+        if (ok) { 
+            let item = await logic.list();
+            if (item === null) {
+                ctx.body = {code: 404, message: 'users is null!'};
+            } else {
+                ctx.body = {code: 200, data: item};
+            }
+        }
+    });
 };
