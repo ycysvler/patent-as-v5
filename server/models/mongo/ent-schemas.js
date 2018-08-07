@@ -129,6 +129,16 @@ module.exports = class Schemas {
         });
         this.User = conn.model('User', this.userSchema);
 
+
+        // v.5 角色表
+        this.roleSchema = new mongoose.Schema({ 
+            rolename: {type: String, index: {unique: true, dropDups: true}},    // 角色名 
+            cname: String,                                                      // 中文名
+            menus: Object,                                                      // 菜单
+            createtime: Date                                                    // 创建时间
+        });
+        this.Role = conn.model('Role', this.roleSchema);
+
         // v.5 外观专利类别
         this.locarnoTypeSchema = new mongoose.Schema({
             typeid: {type: String, index: {unique: true, dropDups: true}},      // 类型ID
