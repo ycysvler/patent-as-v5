@@ -96,10 +96,24 @@ module.exports = class ImageLogic {
         });
     }
 
+    updateSource(name, source){
+        return new Promise((resolve, reject) => {
+            let doc = getMongoPool('patent').Image;
+            doc.update({name: name}, {$set:{source:source}}, function (err, Items) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(Items);
+                }
+            });
+        });
+    }
+
     getCropImage(name, type, width, height, x, y) {
+        let self = this;
         type = type ? type : 'source';
  
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
 	    let doc = getMongoPool('patent').Image;
             doc.findOne({name: name}, type, function (err, Item) {
                 if (err) {
@@ -108,11 +122,12 @@ module.exports = class ImageLogic {
                     //resolve(Item[type]);
                     gm(Item[type])
                         .crop(width, height, x, y)
-                        .toBuffer('JPEG', (err, buffer) => {
+                        .toBuffer('JPEG',async (err, buffer) => {
+                            await self.updateSource(name, buffer);
                             if (err)
                                 console.log('err', err);
                                 
-                            resolve(buffer);
+                            resolve({name:name, colour:Item.colour});
                         });
                 }
             });

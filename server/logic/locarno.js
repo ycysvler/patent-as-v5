@@ -55,7 +55,7 @@ module.exports = class LocarnoLogic {
             let item = list[i];
             if(item.parentid===node.value){
                 let n = {
-                    "label": item.typeid + ' (' + item.description + ')',
+                    "title": item.typeid + ' (' + item.description + ')',
                     "value":  item.typeid,
                     "key":  item.typeid,
                     "rebuilding": false
