@@ -5,7 +5,7 @@
  */
 const UserLogic = require('../../logic/user');
 const tools = require('../../utils/tools');
-
+const uuid = require('uuid');
 const logic = new UserLogic();
 
 module.exports = function (router) {
@@ -29,8 +29,10 @@ module.exports = function (router) {
      * @return {object}          用户信息
      */
     router.post('/system/users', async(ctx) => {
+        let info = ctx.request.body; 
+        info.userid = uuid.v1();
         let item = await logic.add(ctx.request.body);
-        ctx.body = item;
+        ctx.body = {code: 200, data: item};
     });
 
     /**
@@ -60,6 +62,18 @@ module.exports = function (router) {
             } else {
                 ctx.body = {code: 200, data: item};
             }
+        }
+    });
+
+    /**
+     * 删除 
+     */
+    router.delete('/system/users', async(ctx)=>{
+        let ok = true;
+        if (ok) {
+            let body = ctx.request.body; 
+            let item = await logic.remove(body);
+            ctx.body = {code: 200};
         }
     });
 };

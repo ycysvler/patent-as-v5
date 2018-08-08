@@ -55,4 +55,16 @@ module.exports = function (router) {
             }
         }
     });
+
+    /**
+     * 删除 
+     */
+    router.delete('/system/roles', async(ctx)=>{
+        let ok = true;
+        if (ok) {
+            let body = ctx.request.body; 
+            let item = await logic.remove(body);
+            ctx.body = {code: 200};
+        }
+    });
 };

@@ -97,4 +97,26 @@ module.exports = class UserLogic {
             }
         });
     }
+
+    /**
+     * 删除任务
+     * @return {array}
+     */
+    remove(ids) {
+        return new Promise((resolve, reject) => {
+            try {
+                let User = getMongoPool('patent').User;
+                User.remove({"_id": {$in: ids}}, (err, data) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(data);
+                        }
+                }); 
+            } catch (err) {
+                reject(err)
+            }
+        });
+    }
+
 };

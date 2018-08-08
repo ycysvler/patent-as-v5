@@ -75,4 +75,26 @@ module.exports = class RoleLogic {
             }
         });
     }
+
+    /**
+     * 删除任务
+     * @return {array}
+     */
+    remove(ids) {
+        return new Promise((resolve, reject) => {
+            try {
+                let Role = getMongoPool('patent').Role;
+                Role.remove({"_id": {$in: ids}}, (err, data) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(data);
+                        }
+                }); 
+            } catch (err) {
+                reject(err)
+            }
+        });
+    }
+
 };

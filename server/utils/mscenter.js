@@ -13,11 +13,12 @@ const config = require('../config/config');
 class MessageCenter {
     constructor() {
         this.redis = new Redis(config.redis);
+        this.sub = new Redis(config.redis);
         this.pub = new Redis(config.redis);
 
-        this.redis.on('message', this.onMessage);
+        this.sub.on('message', this.onMessage.bind(this));
 
-        this.redis.subscribe('Log',
+        this.sub.subscribe('Log',
             'Feature:BuildFeature',
             'State:StateChange',
             'HeartBeat:TimeChange',
@@ -29,9 +30,24 @@ class MessageCenter {
         );
     }
 
+    getHeartBeats(){
+        return this.instances;
+    }
+
     onMessage(channel, message) {
        if(channel === "HeartBeat:TimeChange"){
+           //console.log('onHeartBeat >',channel, message);
+           
+           message = JSON.parse(message);
+           let instances = this.instances ? this.instances : {};
+           let instance = instances[message.instanceid] ? instances[message.instanceid] : {};
+           instance = {'package' : message.package, 'time' : message.time};
+           instances[message.instanceid] = instance;
+           this.instances = instances; 
+ 
+           this.redis.set('instances', JSON.stringify(this.instances));
 
+           //console.log('instances', this.instances);
        }else{
            console.log('onMessage >',channel, message);
        }
@@ -42,4 +58,5 @@ class MessageCenter {
     }
 }
 
-module.exports = new MessageCenter();
+const mscenter = new MessageCenter();
+module.exports = mscenter;

@@ -18,8 +18,7 @@ const mscenter = require('./utils/mscenter');           // 消息中心
 
 const app = new Koa();                                  // 创建koa实例化
 const log = logger('app');                              // 日志
-
-
+ 
 // app.use(async (ctx, next) => {                       // 打一条屏显，活跃下气氛
 //     console.log(`${moment().format()} ${ctx.request.method} ${ctx.request.url}`);
 //     await next();
