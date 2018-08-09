@@ -29,6 +29,24 @@ module.exports = class InstanceLogic {
         });
     }
 
+    list() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let Instance = getMongoPool('ha').Instance;
+                Instance.find({"package":"CloudAtlas.Search.Worker"}, function (err, items) {
+                    if (!err) {
+                        resolve(items);
+                    } else {
+                        reject(err);
+                    }
+                }); 
+            } catch (err) {
+                reject(err)
+            }
+        });
+    }
+
+
     heart() {
         return new Promise(async (resolve, reject) => {
             try { 

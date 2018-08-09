@@ -111,15 +111,15 @@ module.exports = class ImageLogic {
 
     getCropImage(name, type, width, height, x, y) {
         let self = this;
-        type = type ? type : 'source';
+        type = type ? type :'color_cut';// 'color_feature';
  
         return new Promise(async (resolve, reject) => {
 	    let doc = getMongoPool('patent').Image;
-            doc.findOne({name: name}, type, function (err, Item) {
+            doc.findOne({name: name},  function (err, Item) {
                 if (err) {
             	    reject(err);
                 } else {
-                    //resolve(Item[type]);
+                    console.log(Item[type]);
                     gm(Item[type])
                         .crop(width, height, x, y)
                         .toBuffer('JPEG',async (err, buffer) => {

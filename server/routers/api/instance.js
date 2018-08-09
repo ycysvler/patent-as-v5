@@ -11,7 +11,7 @@ const logic = new InstanceLogic();
 
 module.exports = function (router) {
      
-    router.get('/system/instances', async(ctx) => {
+    router.get('/monitor/instances', async(ctx) => {
         let ok = true;
         if (ok) { 
             let agents = await logic.agents();
