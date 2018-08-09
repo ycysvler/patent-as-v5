@@ -23,9 +23,8 @@ module.exports = class JobLogic {
             try {
                 let Item = getMongoPool('patent').Job;
 
-                Item.find(
-                    {"jobtype": jobtype, "userid": userid},
-                    function (err, item) {
+                Item.find({"jobtype": jobtype, "userid": userid}).sort({'_id':-1})
+                    .exec(function (err, item) {
                         if (err) {
                             reject(err);
                         } else {
