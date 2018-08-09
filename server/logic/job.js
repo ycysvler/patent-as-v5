@@ -22,8 +22,8 @@ module.exports = class JobLogic {
         return new Promise((resolve, reject) => {
             try {
                 let Item = getMongoPool('patent').Job;
-
-                Item.find({"jobtype": jobtype, "userid": userid}).sort({'_id':-1})
+                let name =new RegExp(keyword); 
+                Item.find({"name":name,"jobtype": jobtype, "userid": userid}).sort({'_id':-1})
                     .exec(function (err, item) {
                         if (err) {
                             reject(err);

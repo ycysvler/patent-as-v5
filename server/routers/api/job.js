@@ -21,7 +21,8 @@ module.exports = function (router) {
         if (ok) {
             let userid = ctx.request.query.userid;
             let jobtype = ctx.request.query.jobtype;
-            let item = await logic.list(userid,jobtype,'');
+            let keyword = ctx.request.query.keyword;
+            let item = await logic.list(userid,jobtype,keyword);
             ctx.body = {code: 200, data: item};
         }
     });
